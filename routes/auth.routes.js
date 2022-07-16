@@ -7,15 +7,29 @@ const auth = (app) => {
   app.use('/api/auth', router)
 
   router.post('/signup', async (req, res) => {
-    const { body } = req
-    const user = await authServ.signup(body)
-    return res.status(201).json(user)
+    try {
+      const { body } = req
+      const result = await authServ.signup(body)
+      return res.status(201).json(result)
+    } catch (error) {
+      return res.status(500).json({
+        error: true,
+        message: 'Something went wrong',
+      })
+    }
   })
 
   router.post('/login', async (req, res) => {
-    const { body } = req
-    const user = await authServ.login(body)
-    return res.json(user)
+    try {
+      const { body } = req
+      const result = await authServ.login(body)
+      return res.status(result.error ? 404 : 200).json(result)
+    } catch (error) {
+      return res.status(500).json({
+        error: true,
+        message: 'Something went wrong',
+      })
+    }
   })
 }
 

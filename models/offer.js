@@ -12,19 +12,26 @@ const offerSchema = new Schema(
       type: String,
       required: true,
     },
-    category: {
-      type: [String],
-      required: true,
-      validate: (v) => Array.isArray(v) && v.length > 0,
-    },
+    categories: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true,
+        // validate: (v) => Array.isArray(v) && v.length > 0,
+      },
+    ],
     country: {
-      type: [String],
-      required: true,
-      validate: (v) => Array.isArray(v) && v.length > 0,
+      type: Schema.Types.ObjectId,
+      ref: 'Country',
+      // required: true,
+      // validate: (v) => Array.isArray(v) && v.length > 0,
     },
-    applicants: {
-      type: [String],
-    },
+    applicants: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     salary: {
       type: Number,
       required: true,
@@ -39,6 +46,6 @@ const offerSchema = new Schema(
   }
 )
 
-const OfferSchema = mongoose.model('Offer', offerSchema)
+const OfferModel = mongoose.model('Offer', offerSchema)
 
-module.exports = OfferSchema
+module.exports = OfferModel

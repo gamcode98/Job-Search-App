@@ -3,7 +3,15 @@ const OfferModel = require('./../models/offer')
 class OfferService {
   async getAll() {
     const offers = await OfferModel.find()
+      .populate('country')
+      .populate('categories')
+      .populate('postOwnerId', 'email')
     return offers
+  }
+
+  async getOne(id) {
+    const offer = await OfferModel.findById(id)
+    return offer
   }
 
   async create(data) {

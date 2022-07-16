@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
-    "dev": "cross-env NODE_ENV=development npx nodemon index.js"
+    "dev": "cross-env NODE_ENV=development npx nodemon index.js",
+    "setup:import": "node config/initialConfig",
+    "setup:destroy": "node config/initialConfig -d"
   },
   "keywords": [],
   "author": "gamcode98",

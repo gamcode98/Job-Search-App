@@ -45,9 +45,8 @@ class AuthService {
     const { email, password } = data
     const userServ = new UserService()
     const user = await userServ.getByEmail(email)
-    if (user && (await this.#compare(password, user.password))) {
+    if (user && (await this.#compare(password, user.password)))
       return this.#getUserData(user)
-    }
 
     if (!user) {
       return {
