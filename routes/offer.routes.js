@@ -23,6 +23,17 @@ const offers = (app) => {
     }
   })
 
+  router.get(
+    '/my-offers',
+    authValidation,
+    checkRoles('employer'),
+    async (req, res) => {
+      const { id } = req.user
+      const offers = await offerServ.getOffersByOwner(id)
+      return res.json(offers)
+    }
+  )
+
   router.post('/', authValidation, checkRoles('employer'), async (req, res) => {
     const { id } = req.user
     const { body } = req
@@ -31,7 +42,10 @@ const offers = (app) => {
       postOwnerId: id,
     }
     const offer = await offerServ.create(data)
-    return res.status(201).json(offer)
+    return res.status(201).json({
+      message: 'created',
+      offer,
+    })
   })
 
   router.put(

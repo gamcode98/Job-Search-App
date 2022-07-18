@@ -14,6 +14,11 @@ class OfferService {
     return offer
   }
 
+  async getOffersByOwner(id) {
+    const offers = await OfferModel.find({ postOwnerId: id })
+    return offers
+  }
+
   async create(data) {
     const offer = await OfferModel.create(data)
     return offer
