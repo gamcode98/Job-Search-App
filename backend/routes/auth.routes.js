@@ -12,6 +12,7 @@ const auth = (app) => {
       const result = await authServ.signup(body)
       return res.status(201).json(result)
     } catch (error) {
+      console.log(error)
       return res.status(500).json({
         error: true,
         message: 'Something went wrong',
