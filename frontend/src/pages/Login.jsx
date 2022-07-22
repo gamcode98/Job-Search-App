@@ -28,27 +28,6 @@ function Login() {
         replace: true,
       })
     })
-
-    // fetch('http://localhost:4000/api/auth/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     email: email.current.value,
-    //     password: password.current.value,
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     localStorage.setItem('token', data.token)
-    //     context.setAuth({
-    //       id: data.userData.id,
-    //       name: data.userData.name,
-    //       logged: true,
-    //     })
-    //   })
-    //   .catch((error) => console.log(error))
   }
 
   return (

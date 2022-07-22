@@ -9,25 +9,31 @@ function SignUp() {
 
   const signUp = (e) => {
     const context = useContext(authContext)
+    const [error, setError] = useState({
+      isError: false,
+      message: '',
+      loading: false,
+    })
 
     e.preventDefault()
     post('auth/signup', {
       name: name.current.value,
       email: email.current.value,
       password: password.current.value,
-    }).then(({ data }) => {
-      if (data.error) {
-        console.log(data)
-      } else {
-        localStorage.setItem('token', data.token)
-        context.setAuth({
-          id: data.userData.id,
-          name: data.userData.name,
-          logged: true,
-        })
-      }
     })
-    // .catch((error) => console.log(error))
+      .then(({ data }) => {
+        if (data.error) {
+          console.log(data)
+        } else {
+          localStorage.setItem('token', data.token)
+          context.setAuth({
+            id: data.userData.id,
+            name: data.userData.name,
+            logged: true,
+          })
+        }
+      })
+      .catch((error) => console.log(error.response))
   }
 
   return (
@@ -77,6 +83,7 @@ function SignUp() {
           </form>
         </div>
       </div>
+      {error.isError && <p>{error.message}</p>}
     </div>
   )
 }
