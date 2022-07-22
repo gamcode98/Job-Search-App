@@ -2,6 +2,7 @@ import React from 'react'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { authContext } from '../context/AuthProvider'
+import LogOut from './LogOut'
 
 function Nabvar() {
   const context = useContext(authContext)
@@ -48,6 +49,7 @@ function Nabvar() {
             {context.auth.logged && (
               <li className="nav-item">{context.auth.name}</li>
             )}
+            {context.auth.logged && <LogOut />}
           </ul>
         </div>
       </div>

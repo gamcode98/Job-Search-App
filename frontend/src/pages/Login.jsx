@@ -1,34 +1,54 @@
 import React, { useRef, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { post } from '../api'
 import { authContext } from '../context/AuthProvider'
 
 function Login() {
   const context = useContext(authContext)
+  const navigate = useNavigate()
 
   const email = useRef()
   const password = useRef()
 
   const login = (e) => {
     e.preventDefault()
-    fetch('http://localhost:4000/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email.current.value,
-        password: password.current.value,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem('token', data.token)
-        context.setAuth({
-          id: data.userData.id,
-          name: data.userData.name,
-          logged: true,
-        })
+
+    post('auth/login', {
+      email: email.current.value,
+      password: password.current.value,
+    }).then((data) => {
+      const { token, user } = data.data
+      localStorage.setItem('token', token)
+      context.setAuth({
+        id: user.id,
+        name: user.name,
+        logged: true,
       })
-      .catch((error) => console.log(error))
+      navigate('/', {
+        replace: true,
+      })
+    })
+
+    // fetch('http://localhost:4000/api/auth/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     email: email.current.value,
+    //     password: password.current.value,
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     localStorage.setItem('token', data.token)
+    //     context.setAuth({
+    //       id: data.userData.id,
+    //       name: data.userData.name,
+    //       logged: true,
+    //     })
+    //   })
+    //   .catch((error) => console.log(error))
   }
 
   return (

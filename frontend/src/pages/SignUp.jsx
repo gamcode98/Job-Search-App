@@ -1,4 +1,6 @@
-import React, { useRef } from 'react'
+import React, { useRef, useContext } from 'react'
+import { post } from '../api'
+import { authContext } from '../context/AuthProvider'
 
 function SignUp() {
   const name = useRef()
@@ -6,21 +8,26 @@ function SignUp() {
   const password = useRef()
 
   const signUp = (e) => {
+    const context = useContext(authContext)
+
     e.preventDefault()
-    fetch('http://localhost:4000/api/auth/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: name.current.value,
-        email: email.current.value,
-        password: password.current.value,
-      }),
+    post('auth/signup', {
+      name: name.current.value,
+      email: email.current.value,
+      password: password.current.value,
+    }).then(({ data }) => {
+      if (data.error) {
+        console.log(data)
+      } else {
+        localStorage.setItem('token', data.token)
+        context.setAuth({
+          id: data.userData.id,
+          name: data.userData.name,
+          logged: true,
+        })
+      }
     })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error))
+    // .catch((error) => console.log(error))
   }
 
   return (

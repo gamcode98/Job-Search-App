@@ -21,17 +21,17 @@ class AuthService {
     }
   }
 
-  #getUserData(user) {
-    const userData = {
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      id: user.id,
+  #getUserData(userData) {
+    const user = {
+      name: userData.name,
+      email: userData.email,
+      role: userData.role,
+      id: userData.id,
     }
 
-    const token = this.#createToken(userData)
+    const token = this.#createToken(user)
     return {
-      userData,
+      user,
       token,
     }
   }

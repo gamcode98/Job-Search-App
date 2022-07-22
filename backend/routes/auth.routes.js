@@ -1,4 +1,5 @@
 const express = require('express')
+const authValidation = require('../middleware/authValidation')
 const AuthService = require('./../services/auth.service')
 
 const auth = (app) => {
@@ -25,6 +26,21 @@ const auth = (app) => {
       const { body } = req
       const result = await authServ.login(body)
       return res.status(result.error ? 404 : 200).json(result)
+    } catch (error) {
+      return res.status(500).json({
+        error: true,
+        message: 'Something went wrong',
+      })
+    }
+  })
+
+  router.get('/validate', authValidation, async (req, res) => {
+    try {
+      const { user } = req
+      return res.json({
+        success: true,
+        user,
+      })
     } catch (error) {
       return res.status(500).json({
         error: true,
